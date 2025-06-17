@@ -1,10 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { APP_NAME } from "@/lib/constants";
-import { Button } from "@heroui/button";
-import appPath from "@/app/path";
-import { ShoppingCart, UserIcon } from "lucide-react";
-import ThemeToggler from "./mode-toggler";
+import Menu from "./menu";
 
 const Header = () => {
   return (
@@ -24,19 +21,7 @@ const Header = () => {
             </span>
           </Link>
         </div>
-        <div className="flex-center flex gap-3">
-          <ThemeToggler />
-          <Button variant="ghost" className="">
-            <Link href={appPath.cart()} className="flex gap-3 flex-center">
-              <ShoppingCart /> Cart
-            </Link>
-          </Button>
-          <Button variant="solid" color="primary">
-            <Link href={appPath.signIn()} className="flex gap-3 flex-center">
-              <UserIcon /> Sign In
-            </Link>
-          </Button>
-        </div>
+        <Menu />
       </div>
     </header>
   );

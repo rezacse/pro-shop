@@ -14,6 +14,9 @@ const appPath = {
   cart() {
     return "/cart";
   },
+  productDetail(slug: string) {
+    return `/product//${slug}`;
+  },
   showBookings() {
     return "/admin/bookings";
   },
