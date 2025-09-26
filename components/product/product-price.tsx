@@ -1,21 +1,34 @@
 import { cn } from "@heroui/react";
 
-const ProductPrice = ({
-  price,
-  currency,
-  className,
-}: {
-  price: string;
+type IProps = {
+  price: number;
+  discount: number;
   currency: string;
   className?: string;
-}) => {
-  const [intValue, floatValue] = price.split(".");
+};
+const ProductPrice = ({ price, currency, discount, className }: IProps) => {
+  const [intValue, floatValue] = price.toString().split(".");
+  const [discountIntValue, discountFloatValue] =
+    discount > 0 ? discount.toString().split(".") : [];
   return (
-    <p className={cn("text-2xl", className)}>
-      <span className="text-xs align-super">{currency}</span>
-      {intValue}
-      <span className="text-xs align-super">.{floatValue}</span>
-    </p>
+    <div className={cn("flex items-center", className)}>
+      {(discountIntValue || discountFloatValue) && (
+        <p className="line-through text-red-500 pr-2">
+          {currency}
+          {intValue}.{floatValue.padEnd(2, "0")}
+        </p>
+      )}
+      <p className="text-2xl">
+        <span className="text-xs align-super">{currency}</span>
+        {discount > 0 ? discountIntValue : intValue}
+        <span className="text-xs align-super">
+          .
+          {discount > 0
+            ? discountFloatValue.padEnd(2, "0")
+            : floatValue.padEnd(2, "0")}
+        </span>
+      </p>
+    </div>
   );
 };
 

@@ -13,12 +13,15 @@ SELECT * FROM "Product";
 -- (4.5, 		'good',  '', 		TRUE, 'b0ca177a-1b4f-4de9-bea9-906bb05aa440', '04f72fb1-0d2c-4ba4-96d0-911e1798548b')
 -- ;
 	
-
+Admin123@
 INSERT INTO "User"
 ("Name", "Username", "Password", "Email", "MobileNo", "CountryID", "CurrencyID", "Role") VALUES 
-('Test1 User', 'testuser1', 'abcd', 'test1@email.com', '123', '733a46d5-599b-4d0b-8a39-cf4afb565637', '4f62de6c-3c71-4d3c-8aee-37f8a1db619c', 'CUSTOMER'),
-('Test2 User', 'testuser2', 'abcd', 'test2@email.com', '1234', '733a46d5-599b-4d0b-8a39-cf4afb565637', '4f62de6c-3c71-4d3c-8aee-37f8a1db619c', 'CUSTOMER')
+('Test1 User', 'testuser1', '$2a$10$r34q/ymlOBqAfkd2Ax.hpu1HUX6gw1Dfb3shvzWN1.LR/awtbuBbe', 'test1@email.com', '123', '733a46d5-599b-4d0b-8a39-cf4afb565637', '4f62de6c-3c71-4d3c-8aee-37f8a1db619c', 'CUSTOMER'),
+('Test2 User', 'testuser2', '$2a$10$r34q/ymlOBqAfkd2Ax.hpu1HUX6gw1Dfb3shvzWN1.LR/awtbuBbe', 'test2@email.com', '1234', '733a46d5-599b-4d0b-8a39-cf4afb565637', '4f62de6c-3c71-4d3c-8aee-37f8a1db619c', 'CUSTOMER'),
+('Administrator', 'admin', '$2a$10$r34q/ymlOBqAfkd2Ax.hpu1HUX6gw1Dfb3shvzWN1.LR/awtbuBbe', 'admin@email.com', '12345', '733a46d5-599b-4d0b-8a39-cf4afb565637', '4f62de6c-3c71-4d3c-8aee-37f8a1db619c', 'ADMIN')
 ;
+
+SELECT * FROM "User";
 
 
 -- INSERT INTO "Product"

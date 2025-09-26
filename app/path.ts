@@ -6,16 +6,16 @@ const appPath = {
     return "/admin";
   },
   signIn() {
-    return "/auth/sign-in";
+    return "/sign-in";
   },
   signUp() {
-    return "/auth/signup";
+    return "/sign-up";
   },
   cart() {
     return "/cart";
   },
   productDetail(slug: string) {
-    return `/product//${slug}`;
+    return `/product/${slug}`;
   },
   showBookings() {
     return "/admin/bookings";

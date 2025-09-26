@@ -39,6 +39,7 @@ const ProductCard = ({ product }: IProps) => {
           {product.noOfStock > 0 ? (
             <ProductPrice
               price={product.price}
+              discount={product.discountPrice}
               currency={product.currencySymbol}
             />
           ) : (

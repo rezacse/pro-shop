@@ -49,12 +49,16 @@ model Country {
 }
 
 model User {
-  id       String @id @default(dbgenerated("gen_random_uuid()")) @map("ID") @db.Uuid
-  name     String @map("Name") @db.VarChar(250)
-  username String @unique @map("Username") @db.VarChar(15)
-  password String @map("Password") @db.VarChar(100)
-  email    String @unique @map("Email") @db.VarChar(50)
-  mobileNo String @unique @map("MobileNo") @db.VarChar(15)
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @map("ID") @db.Uuid
+  name          String    @default("") @map("Name") @db.VarChar(250)
+  username      String    @unique @map("Username") @db.VarChar(15)
+  password      String    @map("Password") @db.VarChar(100)
+  email         String    @unique @map("Email") @db.VarChar(50)
+  imgUrl        String    @default("") @map("ImgUrl")
+  mobileNo      String    @unique @map("MobileNo") @db.VarChar(15)
+  emailVerified DateTime? @map("VerifiedOn")
+  role          Role      @default(CUSTOMER) @map("Role")
+  //address Json @db.Json() @default({})
 
   country   Country @relation(fields: [countryID], references: [id])
   countryID String  @map("CountryID") @db.Uuid
@@ -62,14 +66,57 @@ model User {
   currency   Currency @relation(fields: [currencyID], references: [id])
   currencyID String   @map("CurrencyID") @db.Uuid
 
-  role Role @default(CUSTOMER) @map("Role")
-
   isArchived Boolean  @default(false) @map("IsArchived")
   createdAt  DateTime @default(now()) @map("CreatedAt")
   updatedAt  DateTime @default(now()) @map("UpdatedAt")
 
   reviews        ProductReview[]
   twoFactorAuths TwoFactorAuth[]
+  Account        Account[]
+  Session        Session[]
+
+  Cart Cart[]
+}
+
+model Account {
+  userId            String @db.Uuid
+  type              String @map("Type")
+  provider          String @map("Provider")
+  providerAccountId String @map("providerAccountID")
+  refresh_token     String @default("") @map("RefreshToken")
+  access_token      String @default("") @map("AccessToken")
+  expires_at        Int    @map("ExpiresAt")
+  token_type        String @default("") @map("TokenType")
+  scope             String @default("") @map("Scope")
+  id_token          String @default("") @map("IdToken")
+  session_state     String @default("") @map("SessionState")
+
+  isArchived Boolean  @default(false) @map("IsArchived")
+  createdAt  DateTime @default(now()) @map("CreatedAt")
+  updatedAt  DateTime @default(now()) @map("UpdatedAt")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @id @map("Identifier")
+  userId       String   @map("UserID") @db.Uuid
+  expires      DateTime @map("ExpiresAt")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  isArchived Boolean  @default(false) @map("IsArchived")
+  createdAt  DateTime @default(now()) @map("CreatedAt")
+  updatedAt  DateTime @default(now()) @map("UpdatedAt")
+}
+
+model VerificationToken {
+  identifier String   @map("Identifier")
+  token      String   @map("Token")
+  expires    DateTime @default(now()) @map("ExpiresAt")
+
+  @@id([identifier, token])
 }
 
 model TwoFactorAuth {
@@ -139,6 +186,8 @@ model Product {
   currencyID String   @map("CurrencyID") @db.Uuid
 
   reviews ProductReview[]
+
+  Cart Cart[]
 }
 
 model ProductReview {
@@ -148,13 +197,28 @@ model ProductReview {
   note       String  @map("Note") @db.VarChar(50)
   isVerified Boolean @default(false) @map("IsVerified")
 
+  isArchived Boolean  @default(false) @map("IsArchived")
+  createdAt  DateTime @default(now()) @map("CreatedAt")
+  updatedAt  DateTime @default(now()) @map("UpdatedAt")
+
   user   User   @relation(fields: [userID], references: [id])
   userID String @map("UserID") @db.Uuid
 
   product   Product @relation(fields: [productID], references: [id])
   productID String  @map("ProductID") @db.Uuid
+}
+
+model Cart {
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @map("ID") @db.Uuid
+  quantity Int
 
   isArchived Boolean  @default(false) @map("IsArchived")
   createdAt  DateTime @default(now()) @map("CreatedAt")
   updatedAt  DateTime @default(now()) @map("UpdatedAt")
+
+  user   User   @relation(fields: [userID], references: [id])
+  userID String @map("UserID") @db.Uuid
+
+  product   Product @relation(fields: [productID], references: [id])
+  productID String  @map("ProductID") @db.Uuid
 }
